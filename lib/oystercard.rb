@@ -1,4 +1,5 @@
 class Oystercard
+DEFAULT_LIMIT = 90
 attr_reader :balance
 
   def initialize
@@ -6,6 +7,7 @@ attr_reader :balance
   end
 
   def topup(amount)
+    raise 'Action would exceed card limit' if (@balance + amount) > DEFAULT_LIMIT
     @balance += amount
   end
 
