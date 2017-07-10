@@ -16,25 +16,20 @@ describe Oystercard do
     end
   end
 
-  describe "Topping up" do
+  describe "Altering balance" do
     it 'allows you to topup the balance by a specified amount' do
       card.topup(amount)
       expect(card.balance).to eq amount
     end
 
-    it 'allows you to deduct an amount from the balance' do
-      card.topup(amount)
-      card.deduct(1)
-      expect(card.balance).to eq (amount - 1)
-    end
-
     it 'error raised when attempting to raise balance above £90' do
-      expect{card.topup(limit + 1)}.to raise_error 'Action would exceed card limit'
+      expect { card.topup(limit + 1) }.to raise_error 'Action would exceed card limit'
     end
   end
 
   context "Journeys on loaded card" do
     before {card.topup(amount)}
+
     it 'registers as #in_journey? after touching in' do
       card.touch_in
       expect(card).to be_in_journey
@@ -44,6 +39,11 @@ describe Oystercard do
       card.touch_in
       card.touch_out
       expect(card).to_not be_in_journey
+    end
+
+    it 'deducts a specific fare after touching in and out' do
+      card.touch_in
+      expect { card.touch_out }.to change{ card.balance }.by(- Oystercard::DEFAULT_MIN_FARE)
     end
   end
 
