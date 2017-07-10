@@ -42,21 +42,26 @@ describe Oystercard do
     end
 
     it 'registers as not #in_journey? after touching out' do
-      card.touch_out
+      card.touch_out(station)
       expect(card).to_not be_in_journey
     end
 
     it 'sets entry_station to nil after touching out' do
-      card.touch_out
+      card.touch_out(station)
       expect(card.entry_station).to be_nil
     end
 
     it 'deducts a specific fare after touching in and out' do
-      expect { card.touch_out }.to change{ card.balance }.by(- Oystercard::DEFAULT_MIN_FARE)
+      expect { card.touch_out(station) }.to change{ card.balance }.by(- Oystercard::DEFAULT_MIN_FARE)
     end
 
     it 'stores entry_station as a variable when touching in' do
       expect(card.entry_station).to be
+    end
+
+    it 'stores a journey as a key:value pair within an array when touching out' do
+      card.touch_out(station)
+      expect(card.journey_history).to eq [ { station => station } ]
     end
   end
 
@@ -67,6 +72,4 @@ describe Oystercard do
   end
 end
 
-#1) initialize list of journeys as an instance variable ('journey_history' hash)
-#2) touch_out accepts an exit station
 #3) touch out pushes saved station info to 'journey_history' hash
