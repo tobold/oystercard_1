@@ -1,11 +1,14 @@
+require 'station'
+
 class Oystercard
 DEFAULT_LIMIT = 90
 DEFAULT_MIN_FARE = 1
-attr_reader :balance
+attr_reader :balance, :entry_station
 
   def initialize
     @balance = 0
     @in_journey = false
+    @entry_station = nil
   end
 
   def topup(amount)
@@ -16,6 +19,7 @@ attr_reader :balance
   def touch_in
     raise 'Balance is too low' if @balance < DEFAULT_MIN_FARE
     @in_journey = true
+    @entry_station = Station.new
   end
 
   def touch_out

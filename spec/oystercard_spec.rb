@@ -1,5 +1,6 @@
 require 'oystercard'
 
+
 describe Oystercard do
   subject(:card) {described_class.new}
 
@@ -45,6 +46,11 @@ describe Oystercard do
       card.touch_in
       expect { card.touch_out }.to change{ card.balance }.by(- Oystercard::DEFAULT_MIN_FARE)
     end
+
+    it 'stores entry_station as a variable when touching in' do
+      card.touch_in
+      expect(card.entry_station).to be
+    end
   end
 
   describe "Card errors" do
@@ -53,3 +59,12 @@ describe Oystercard do
     end
   end
 end
+
+#1) Write test for after touch in, card has variable 'entry_station'
+#2) Make an entry station double in tests (returns itself when intialised)
+#3) Make it pass by altering touch_in method
+#4) Make existing tests pass again (the ones that were using touch_in)
+#5) Make a test to check that entry_station is set to nil after touch_out is called
+#6) Make test pass
+#7) Make test to check in_journey? method
+#8) Remove in_journey variable and make tests point to this
