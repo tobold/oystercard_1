@@ -35,7 +35,13 @@ describe Oystercard do
   describe "Journeys" do
     it 'registers as #in_journey? after touching in' do
       card.touch_in
-      expect(card.in_journey?).to eq true
+      expect(card).to be_in_journey
+    end
+
+    it 'registers as not #in_journey? after touching out' do
+      card.touch_in
+      card.touch_out
+      expect(card).to_not be_in_journey
     end
   end
 end
