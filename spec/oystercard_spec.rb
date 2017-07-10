@@ -2,6 +2,7 @@ require 'oystercard'
 
 describe Oystercard do
   subject(:card) {described_class.new}
+
   let(:limit) {Oystercard::DEFAULT_LIMIT}
   let(:amount) { 10 }
 
@@ -32,7 +33,8 @@ describe Oystercard do
     end
   end
 
-  describe "Journeys" do
+  context "Journeys on loaded card" do
+    before {card.topup(amount)}
     it 'registers as #in_journey? after touching in' do
       card.touch_in
       expect(card).to be_in_journey
@@ -42,6 +44,12 @@ describe Oystercard do
       card.touch_in
       card.touch_out
       expect(card).to_not be_in_journey
+    end
+  end
+
+  describe "Card errors" do
+    it '#touch_in raises error if card balance is less than minimum' do
+      expect{card.touch_in}.to raise_error 'Balance is too low'
     end
   end
 end
