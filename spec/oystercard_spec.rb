@@ -16,6 +16,10 @@ describe Oystercard do
     it 'registers new cards as #in_journey false' do
       expect(card.in_journey?).to eq false
     end
+
+    it 'checks a new card has an empty journey_history hash' do
+      expect(card.journey_history).to be_empty
+    end
   end
 
   describe "Altering balance" do
@@ -63,11 +67,6 @@ describe Oystercard do
   end
 end
 
-#1) Write test for after touch in, card has variable 'entry_station'
-#2) Make an entry station double in tests (returns itself when intialised)
-#3) Make it pass by altering touch_in method
-#4) Make existing tests pass again (the ones that were using touch_in)
-#5) Make a test to check that entry_station is set to nil after touch_out is called
-#6) Make test pass
-#7) Make test to check in_journey? method
-#8) Remove in_journey variable and make tests point to this
+#1) initialize list of journeys as an instance variable ('journey_history' hash)
+#2) touch_out accepts an exit station
+#3) touch out pushes saved station info to 'journey_history' hash

@@ -3,9 +3,10 @@ require 'station'
 class Oystercard
 DEFAULT_LIMIT = 90
 DEFAULT_MIN_FARE = 1
-attr_reader :balance, :entry_station
+attr_reader :balance, :entry_station, :journey_history
 
   def initialize
+    @journey_history = {}
     @balance = 0
     @entry_station = nil
   end
