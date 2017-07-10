@@ -16,10 +16,10 @@ attr_reader :balance, :entry_station
     @balance += amount
   end
 
-  def touch_in
+  def touch_in(station)
     raise 'Balance is too low' if @balance < DEFAULT_MIN_FARE
     @in_journey = true
-    @entry_station = Station.new
+    @entry_station = station
   end
 
   def touch_out
