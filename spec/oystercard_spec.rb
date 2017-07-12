@@ -6,6 +6,7 @@ describe Oystercard do
   let(:limit) {Oystercard::DEFAULT_LIMIT}
   let(:amount) { 10 }
   let(:station) { double(:station, name: "Station name", zone: 1) }
+  let(:journey) { double(:journey) }
 
   describe "Initialization" do
     it 'checks a new card has balance of zero' do
@@ -54,13 +55,8 @@ describe Oystercard do
       expect { card.touch_out(station) }.to change{ card.balance }.by(- Oystercard::DEFAULT_MIN_FARE)
     end
 
-    it 'stores entry_station as a variable when touching in' do
-      expect(card.entry_station).to be
-    end
-
-    it 'stores a journey as a key:value pair within an array when touching out' do
-      card.touch_out(station)
-      expect(card.journey_history).to eq [ { station => station } ]
+    it 'stores a new instance of Journey in @journey_history' do
+      expect(card.journey_history[0]).to be_an_instance_of(Journey)
     end
   end
 
