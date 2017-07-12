@@ -6,7 +6,7 @@ describe Oystercard do
 
   let(:limit) {Oystercard::DEFAULT_LIMIT}
   let(:amount) { 10 }
-  let(:station) { double(:station) }
+  let(:station) { double(:station, name: "Station name", zone: 1) }
 
   describe "Initialization" do
     it 'checks a new card has balance of zero' do
