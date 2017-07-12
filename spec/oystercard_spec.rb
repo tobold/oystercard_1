@@ -46,17 +46,16 @@ describe Oystercard do
       expect(card).to_not be_in_journey
     end
 
-    it 'sets entry_station to nil after touching out' do
-      card.touch_out(station)
-      expect(card.entry_station).to be_nil
-    end
-
     it 'deducts a specific fare after touching in and out' do
       expect { card.touch_out(station) }.to change{ card.balance }.by(- Oystercard::DEFAULT_MIN_FARE)
     end
 
     it 'stores a new instance of Journey in @journey_history' do
       expect(card.journey_history[0]).to be_an_instance_of(Journey)
+    end
+
+    it 'should deduct the penalty when touching in twice' do
+      expect { card.touch_in(station) }.to change{ card.balance }.by(- 6)
     end
   end
 

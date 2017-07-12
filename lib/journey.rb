@@ -1,20 +1,16 @@
 class Journey
   attr_reader :fare
   def initialize
-    @in_journey = false
-    @fare = 1
+    @fare = 6
     @completed = false
   end
 
   def start_journey(station)
-    penalty_fare if @in_journey
-    @in_journey = true
     @entry_station = station
   end
 
   def end_journey(station)
-    @in_journey == false ? penalty_fare : complete_journey
-    @in_journey = false
+    complete_journey if @entry_station != nil
     @exit_station = station
   end
 
@@ -23,7 +19,7 @@ class Journey
   end
 
   def in_journey?
-    @in_journey
+    @entry_station != nil && @exit_station == nil
   end
 
   private
@@ -37,7 +33,7 @@ class Journey
     @fare = 1
   end
 
-  def penalty_fare
-    @fare = 6
-  end
+  # def penalty_fare
+  #   @fare = 6
+  # end
 end

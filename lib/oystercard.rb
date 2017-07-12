@@ -16,20 +16,27 @@ attr_reader :balance, :entry_station, :journey_history
 
   def touch_in(station)
     raise 'Balance is too low' if @balance < DEFAULT_MIN_FARE
-    @journey_history << Journey.new
+    if lastjourney != nil
+      deduct(lastjourney.fare) if lastjourney.completed? == false
+    end
+    create_journey
     lastjourney.start_journey(station)
   end
 
   def touch_out(station)
-    deduct(DEFAULT_MIN_FARE)
     lastjourney.end_journey(station)
+    deduct(lastjourney.fare)
   end
 
   def in_journey?
-    lastjourney == nil ? false : lastjourney.in_journey?
+    lastjourney != nil ? lastjourney.in_journey? : false
   end
 
   private
+
+  def create_journey
+    @journey_history << Journey.new
+  end
 
   def lastjourney
     @journey_history.last
