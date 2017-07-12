@@ -1,3 +1,4 @@
+require_relative 'journey'
 class Oystercard
 DEFAULT_LIMIT = 90
 DEFAULT_MIN_FARE = 1
@@ -14,6 +15,7 @@ attr_reader :balance, :entry_station, :journey_history
   end
 
   def touch_in(station)
+    # Journey.new.start_journey(station)
     raise 'Balance is too low' if @balance < DEFAULT_MIN_FARE
     @entry_station = station
   end
@@ -25,7 +27,7 @@ attr_reader :balance, :entry_station, :journey_history
   end
 
   def in_journey?
-    @entry_station != nil
+    @entry_station != nil #delegate
   end
 
   private
