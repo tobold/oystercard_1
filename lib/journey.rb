@@ -1,7 +1,11 @@
 class Journey
+
   attr_reader :fare
+  PENALTY_FARE = 6
+  DEFAULT_MIN_FARE = 1
+
   def initialize
-    @fare = 6
+    @fare = PENALTY_FARE
     @completed = false
   end
 
@@ -30,10 +34,6 @@ class Journey
   end
 
   def calculate_fare
-    @fare = 1
+    @fare = DEFAULT_MIN_FARE
   end
-
-  # def penalty_fare
-  #   @fare = 6
-  # end
 end

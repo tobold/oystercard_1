@@ -1,12 +1,13 @@
 require_relative 'journey'
+
 class Oystercard
 DEFAULT_LIMIT = 90
-DEFAULT_MIN_FARE = 1
 attr_reader :balance, :entry_station, :journey_history
 
   def initialize
     @journey_history = []
     @balance = 0
+    @in_journey = false
   end
 
   def topup(amount)
@@ -15,21 +16,22 @@ attr_reader :balance, :entry_station, :journey_history
   end
 
   def touch_in(station)
-    raise 'Balance is too low' if @balance < DEFAULT_MIN_FARE
-    if lastjourney != nil
-      deduct(lastjourney.fare) if lastjourney.completed? == false
-    end
+    raise 'Balance is too low' if @balance < Journey::DEFAULT_MIN_FARE
+    deduct(lastjourney.fare) if in_journey?
+    @in_journey = true
     create_journey
     lastjourney.start_journey(station)
   end
 
   def touch_out(station)
+    create_journey if !in_journey?
+    @in_journey = false
     lastjourney.end_journey(station)
     deduct(lastjourney.fare)
   end
 
   def in_journey?
-    lastjourney != nil ? lastjourney.in_journey? : false
+    @in_journey
   end
 
   private

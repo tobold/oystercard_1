@@ -47,7 +47,7 @@ describe Oystercard do
     end
 
     it 'deducts a specific fare after touching in and out' do
-      expect { card.touch_out(station) }.to change{ card.balance }.by(- Oystercard::DEFAULT_MIN_FARE)
+      expect { card.touch_out(station) }.to change{ card.balance }.by(- 1)
     end
 
     it 'stores a new instance of Journey in @journey_history' do
