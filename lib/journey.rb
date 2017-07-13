@@ -7,6 +7,8 @@ class Journey
   def initialize
     @fare = PENALTY_FARE
     @completed = false
+    @entry_station = nil
+    @exit_station = nil
   end
 
   def start_journey(station)
